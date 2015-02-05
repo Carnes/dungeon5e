@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dungeon5e</title>
+        <link rel="stylesheet" type="text/css" href="css/core.css">
+    </head>
+    <body>
+        <script src="http://tageverything.org/js/jquery.js"></script>
+        <script src="js/tile/type.js"></script>
+        <script src="js/tile/base.js"></script>
+        <script src="js/tile/floor.js"></script>
+        <script src="js/tile/wall.js"></script>
+        <script src="js/tile/door.js"></script>
+        <script src="js/section/entrance.js"></script>
+        <script src="js/sectionData/entrance.js"></script>
+        <script src="js/map.js"></script>
+
+        <h2>Dungeon5e</h2>
+        <h3>D&D 5th Edition Dungeon Generator</h3>
+        <blockquote class="monospace" id="map"></blockquote>
+
+        <script>
+            $(function(){
+                var entrance = new Section.Entrance(0);
+                var map = new Map();
+                map.addSection(entrance);
+                $('#map').html(map.render());
+            });
+        </script>
+    </body>
+</html>

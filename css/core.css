@@ -1,0 +1,4 @@
+.monospace {
+    font-family:'Lucida Console', monospace;
+    white-space: pre-wrap;
+}
