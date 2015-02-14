@@ -22,7 +22,7 @@
         <script>
             $(function(){
                 var entrance = new Section.Entrance(0);
-                var map = new Map();
+                var map = new Map(64,64);
                 map.addSection(entrance);
                 $('#map').html(map.render());
             });
