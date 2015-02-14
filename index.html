@@ -25,6 +25,7 @@
                 var map = new Map(64,64);
                 map.addSection(entrance,32,32);
                 entrance.setTileType(3,0,TileType.Door);
+                map.refreshMap();
                 $('#map').html(map.renderAscii());
             });
         </script>

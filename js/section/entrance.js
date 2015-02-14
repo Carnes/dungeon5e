@@ -33,9 +33,9 @@ Section.Entrance = (function(){
 
     section.prototype.setTile = function(x, y, tile){
         var self = this;
-        if(!self.map[x])
-            self.map[x]=[];
-        self.map[x][y] = tile;
+        if(!self.map[y])
+            self.map[y]=[];
+        self.map[y][x] = tile;
     };
 
     section.prototype.setTileType = function(x,y,tileType){
@@ -46,12 +46,13 @@ Section.Entrance = (function(){
 
     section.prototype.createMap = function(variation){
         var self = this;
-        variation.map.forEach(function(row){
-            var newRow = [];
-            row.forEach(function(tileType){
-                newRow.push(self.getNewTileFromType(tileType));
+        variation.map.forEach(function(row,x){
+            //var newRow = [];
+            row.forEach(function(tileType,y){
+                self.setTileType(x,y,tileType);
+                //newRow.push(self.getNewTileFromType(tileType));
             });
-            self.map.push(newRow);
+            //self.map.push(newRow);
         });
     };
 

@@ -8,23 +8,23 @@ var Map = (function(){
         var maxX = null;
         var maxY = null;
 
-        var graph = [];
-        var graphOffset = 1000;
+        var map = [];
+        var mapOffset = 1000;
 
         self.getTile = function(x, y){
-            x+=graphOffset;
-            y+=graphOffset;
-            if(!graph[x])
+            x+=mapOffset;
+            y+=mapOffset;
+            if(!map[y])
                 return undefined;
-            return graph[x][y];
+            return map[y][x];
         };
 
         self.setTile = function(x, y, tile){
-            x+=graphOffset;
-            y+=graphOffset;
-            if(!graph[x])
-                graph[x]=[];
-            graph[x][y] = tile;
+            x+=mapOffset;
+            y+=mapOffset;
+            if(!map[y])
+                map[y]=[];
+            map[y][x] = tile;
             if(minX == null || x < minX) minX = x;
             if(maxX == null || x > maxX) maxX = x;
             if(minY == null || y < minY) minY = y;
@@ -36,60 +36,62 @@ var Map = (function(){
                 return false;
             if(y> maxY && y-minY > totalY)
                 return false;
-            if(self.getTile(x,y) == undefined || self.getTile(x,y) == tile)
+            var gTile = self.getTile(x,y);
+            if(gTile == undefined || gTile.type == tile.type || gTile.parent == tile.parent)
                     return true;
             return false;
         };
 
-        self.doesSectionFit = function(section, x, y){
+        self.doesSectionFit = function(xOrigin, yOrigin, section){
             if(Array.isArray(section.map)==false)
                 throw "Map.doesSectionFit requires section to be an array of tiles.";
             var itDoes = true;
-            var tX = x;
-            var tY;
-            section.map.forEach(function(xGroup){
-                tY = y;
-                xGroup.forEach(function(tile){
-                    if(typeof(tile)=="number" && isFinite(tile))
-
-                    if(self.doesTileFit(tX, tY, tile) === false)
-                        itDoes = false;
-                    tY++;
+            section.map.forEach(function(xGroup, x){
+                xGroup.forEach(function(tile, y){
+                    //if(typeof(tile)=="number" && isFinite(tile))
+                        if(self.doesTileFit(x+xOrigin, y+yOrigin, tile) === false)
+                            itDoes = false;
                 });
-                tX++;
             });
             return itDoes;
         };
 
-        self.registerSectionInGraph = function(section, xOrigin, yOrigin){
+        self.renderSectionInMap = function(xOrigin, yOrigin, section){
             if(Array.isArray(section.map)==false)
                 throw "Map.doesSectionFit requires section to be an array of tiles.";
             section.map.forEach(function(xGroup, x){
                 xGroup.forEach(function(tile, y){
-                    if(self.getTile(x,y))
-                        console.log('Overwriting tile: '+x+', '+y);
-                    self.setTile(x,y, tile);
+                    var existingTile = self.getTile(x+xOrigin,y+yOrigin);
+                    if(existingTile && (existingTile.parent != section || existingTile.parent == null))
+                        console.log('WARNING: Overwriting tile: '+x+xOrigin+', '+y+yOrigin);
+                    self.setTile(x+xOrigin,y+yOrigin, tile);
                 });
+            });
+        };
+
+        self.refreshMap = function(){
+            sections.forEach(function(sectionData){
+                self.renderSectionInMap(sectionData.x, sectionData.y, sectionData.section);
             });
         };
 
         self.addSection = function(section, x, y){
             //if(!(section instanceof Section.Base))
             //    throw "addSection must take a Section";
-            if(self.doesSectionFit(section,x,y)===false)
+            if(self.doesSectionFit(x,y,section)===false)
                 return false;
-            self.registerSectionInGraph(section, x, y);
-            sections.push(section);
+            self.renderSectionInMap(x, y,section);
+            sections.push({section: section, x: x, y: y});
             return true;
         };
 
         self.renderAscii = function(){
             var output = '';
             for(var x=minX; x<=maxX; x++){
-                var xGroup = graph[x];
                 for(var y=minY; y<=maxY; y++) {
-                    if(xGroup && xGroup[y])
-                        output+=xGroup[y].render();
+                    var tile = self.getTile(x-mapOffset,y-mapOffset);
+                    if(tile)
+                        output+=tile.render();
                     else
                         output+='?';
                 }
