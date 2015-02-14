@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="css/core.css">
     </head>
     <body>
+        <script src="js/prototypes/array.js"></script>
         <script src="http://tageverything.org/js/jquery.js"></script>
         <script src="js/tile/type.js"></script>
         <script src="js/tile/base.js"></script>
@@ -13,7 +14,9 @@
         <script src="js/tile/door.js"></script>
         <script src="js/section/entrance.js"></script>
         <script src="js/sectionData/entrance.js"></script>
+        <script src="js/random.js"></script>
         <script src="js/map.js"></script>
+        <script src="js/generator.js"></script>
 
         <h2>Dungeon5e</h2>
         <h3>D&D 5th Edition Dungeon Generator</h3>
@@ -21,12 +24,15 @@
 
         <script>
             $(function(){
-                var entrance = new Section.Entrance(0);
-                var map = new Map(64,64);
-                map.addSection(entrance,32,32);
-                entrance.setTileType(3,0,TileType.Door);
-                map.refreshMap();
+                var map = Generator.generateMap(100,100);
                 $('#map').html(map.renderAscii());
+
+                console.log(Random.int(1));
+                console.log(Random.int(1));
+                console.log(Random.int(1));
+                console.log(Random.int(3));
+                console.log(Random.int(3));
+                console.log(Random.int(3));
             });
         </script>
     </body>

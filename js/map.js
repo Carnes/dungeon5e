@@ -11,6 +11,9 @@ var Map = (function(){
         var map = [];
         var mapOffset = 1000;
 
+        self.X = totalX;
+        self.Y = totalY;
+
         self.getTile = function(x, y){
             x+=mapOffset;
             y+=mapOffset;
