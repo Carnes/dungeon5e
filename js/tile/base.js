@@ -4,6 +4,7 @@ var TileBase = (function(){
     };
     var p = base.prototype;
 
+    p.parent = null;
     p.type = TileType.Unknown;
     p.render = function(){return ".";};
     p.init = function(init){
