@@ -11,6 +11,13 @@ SectionData.Entrance = [
 //            [2,2,2,2,2,2]
 //        ], door: [], passage: ['north','east','south','west']
 //    },
+//    {
+//        map: [
+//            [2,2,2],
+//            [2,1,2],
+//            [2,2,2]
+//        ], door: ['north'], passage: ['any','any']
+//    }
     {
         map: [
             [2,2,2,2,2,2],
@@ -19,7 +26,7 @@ SectionData.Entrance = [
             [2,1,1,1,1,2],
             [2,1,1,1,1,2],
             [2,2,2,2,2,2]
-        ], door: ['any'], passage: ['any','any']
+        ], door: ['any','any'], passage: ['any','any']
     },
     {
         map: [

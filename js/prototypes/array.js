@@ -25,3 +25,7 @@ Array.prototype.remove = function (valueOrPredicate) {
 
     return removedValues;
 };
+
+Array.prototype.clone = function(){
+    return this.splice(0);
+};

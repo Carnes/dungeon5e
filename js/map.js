@@ -9,7 +9,7 @@ var Map = (function(){
         var maxY = null;
 
         var map = [];
-        var mapOffset = 1000;
+        var mapOffset = 10000;
 
         self.X = totalX;
         self.Y = totalY;
@@ -35,6 +35,8 @@ var Map = (function(){
         };
 
         self.doesTileFit = function(x, y, tile){
+            if(x+mapOffset < 0 || y+mapOffset < 0)
+                return false;
             if(x> maxX && x-minX > totalX)
                 return false;
             if(y> maxY && y-minY > totalY)
