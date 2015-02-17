@@ -22,10 +22,33 @@ Array.prototype.remove = function (valueOrPredicate) {
             i--;
         }
     }
-
     return removedValues;
 };
 
 Array.prototype.clone = function(){
-    return this.splice(0);
+    return JSON.parse(JSON.stringify(this));
+};
+
+Array.prototype.any = function (predicate) {
+    if (predicate) {
+        if (!$.isFunction(predicate))
+            throw 'Function expected';
+
+        for (var i = 0; i < this.length; i++) {
+            if (predicate(this[i]))
+                return true;
+        }
+    }
+    else if (this.length > 0) {
+        return true;
+    }
+
+    return false;
+};
+
+Array.range = function(max){
+    var a = new Array(max);
+    for(var i=0;i<max;i++)
+        a[i]=i;
+    return a;
 };

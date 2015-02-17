@@ -2,5 +2,6 @@ var TileType = {
     Unknown: 0,
     Floor: 1,
     Wall: 2,
-    Door: 3
+    Door: 3,
+    Entrance: 4
 };

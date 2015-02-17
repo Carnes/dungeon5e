@@ -12,21 +12,30 @@
         <script src="js/tile/floor.js"></script>
         <script src="js/tile/wall.js"></script>
         <script src="js/tile/door.js"></script>
+        <script src="js/tile/entrance.js"></script>
+        <script src="js/section/base.js"></script>
         <script src="js/section/entrance.js"></script>
+        <script src="js/section/chamber.js"></script>
         <script src="js/sectionData/entrance.js"></script>
+        <script src="js/sectionData/chamber.js"></script>
         <script src="js/random.js"></script>
         <script src="js/map.js"></script>
         <script src="js/generator.js"></script>
 
         <h2>Dungeon5e</h2>
         <h3>D&D 5th Edition Dungeon Generator</h3>
+        <button id="genButton" >Generate</button><br>
         <blockquote class="monospace" id="map"></blockquote>
 
         <script>
             $(function(){
-                var map = Generator.generateMap(100,100);
-                $('#map').html(map.renderAscii());
+                var gen = function(){
+                    var map = Generator.generateMap(300,300);
+                    $('#map').html(map.renderAscii());
+                };
+                gen();
 
+                $('#genButton').get(0).onclick = function(){gen()};
             });
         </script>
     </body>

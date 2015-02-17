@@ -1,5 +1,5 @@
 var Map = (function(){
-    var map = function(totalX, totalY){
+    return function(totalX, totalY){
         var self = this;
 
         var sections = [];
@@ -9,7 +9,7 @@ var Map = (function(){
         var maxY = null;
 
         var map = [];
-        var mapOffset = 10000;
+        var mapOffset = 10000; //WOOP WOOP Magic number alert
 
         self.X = totalX;
         self.Y = totalY;
@@ -43,7 +43,7 @@ var Map = (function(){
                 return false;
             var gTile = self.getTile(x,y);
             if(gTile == undefined || gTile.type == tile.type || gTile.parent == tile.parent)
-                    return true;
+                return true;
             return false;
         };
 
@@ -51,8 +51,9 @@ var Map = (function(){
             if(Array.isArray(section.map)==false)
                 throw "Map.doesSectionFit requires section to be an array of tiles.";
             var itDoes = true;
-            section.map.forEach(function(xGroup, x){
-                xGroup.forEach(function(tile, y){
+
+            section.map.forEach(function(yGroup, y){
+                yGroup.forEach(function(tile, x){
                     //if(typeof(tile)=="number" && isFinite(tile))
                         if(self.doesTileFit(x+xOrigin, y+yOrigin, tile) === false)
                             itDoes = false;
@@ -64,11 +65,11 @@ var Map = (function(){
         self.renderSectionInMap = function(xOrigin, yOrigin, section){
             if(Array.isArray(section.map)==false)
                 throw "Map.doesSectionFit requires section to be an array of tiles.";
-            section.map.forEach(function(xGroup, x){
-                xGroup.forEach(function(tile, y){
+            section.map.forEach(function(yGroup, y){
+                yGroup.forEach(function(tile, x){
                     var existingTile = self.getTile(x+xOrigin,y+yOrigin);
-                    if(existingTile && (existingTile.parent != section || existingTile.parent == null))
-                        console.log('WARNING: Overwriting tile: '+x+xOrigin+', '+y+yOrigin);
+                    if(existingTile && (existingTile.parent != section || existingTile.parent == null)  && existingTile.type != tile.type)
+                        console.log('WARNING: Overwriting tile: '+(x+xOrigin)+', '+(y+yOrigin));
                     self.setTile(x+xOrigin,y+yOrigin, tile);
                 });
             });
@@ -81,8 +82,8 @@ var Map = (function(){
         };
 
         self.addSection = function(section, x, y){
-            //if(!(section instanceof Section.Base))
-            //    throw "addSection must take a Section";
+            if(!(section instanceof SectionBase))
+                throw "addSection must take a Section";
             if(self.doesSectionFit(x,y,section)===false)
                 return false;
             self.renderSectionInMap(x, y,section);
@@ -92,13 +93,14 @@ var Map = (function(){
 
         self.renderAscii = function(){
             var output = '';
+            var baseTileRender = new TileBase().render();
             for(var x=minX; x<=maxX; x++){
                 for(var y=minY; y<=maxY; y++) {
                     var tile = self.getTile(x-mapOffset,y-mapOffset);
                     if(tile)
                         output+=tile.render();
                     else
-                        output+='?';
+                        output+= baseTileRender;
                 }
                 output+='\r\n';
             }
@@ -107,6 +109,4 @@ var Map = (function(){
 
         return self;
     };
-
-    return map;
 })();
