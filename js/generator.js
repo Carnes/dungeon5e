@@ -140,11 +140,15 @@ var Generator = (function(){
                 self.doorQueue = self.doorQueue.randomize();
                 var door = self.doorQueue.pop();
                 var genChamberSuccess = self.genChamber(door);
-                if(genChamberSuccess === false)
+                if(genChamberSuccess === false){
                     door.parent.removeDoor(door);
+                    console.log("Couldn't fit chamber door, removing it.");
+                }
                 self.updateView();
             }
         }
+
+        self.map.refreshMap();
 
         return self.map;
     };
