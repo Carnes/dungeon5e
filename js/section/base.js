@@ -179,6 +179,17 @@ var SectionBase = (function(){
         return tile;
     };
 
+    p.rotateMapCounterClockwise = function(){
+        var self = this;
+        var map = self.map;
+        self.map = [];
+        map.forEach(function(yGroup,y){
+            yGroup.forEach(function(tile,x){
+                self.setTile.call(self, y,x,tile);
+            });
+        });
+    };
+
     p.setTile = function(x, y, tile){
         var self = this;
         if(!self.map[y])
@@ -201,8 +212,8 @@ var SectionBase = (function(){
 
     p.createMap = function(map){
         var self = this;
-        map.forEach(function(row,x){
-            row.forEach(function(tileType,y){
+        map.forEach(function(xGroup,x){
+            xGroup.forEach(function(tileType,y){
                 self.setTileType.call(self, x,y,tileType);
             });
         });

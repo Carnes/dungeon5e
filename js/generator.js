@@ -63,6 +63,8 @@ var Generator = (function(){
         var success = false;
         var chamber;
         var chamberDoorDirection;
+        var rotations=0;
+        var variation=null;
         switch(parentDoor.direction){
             case 'east':
                 chamberDoorDirection = 'west'; break;
@@ -74,8 +76,14 @@ var Generator = (function(){
                 chamberDoorDirection = 'north'; break;
         }
         while(variationList.length > 0 && success == false){
-            var variation = variationList.pop();
+            if(rotations == 3 || variation == null){
+                variation = variationList.pop();
+                rotations = 0;
+            }
             chamber = new Section.Chamber(variation,chamberDoorDirection);
+            var chamberRotationStart = Random.int(4);
+            for(var i = 0; i<chamberRotationStart; i++)
+                chamber.rotateMapCounterClockwise();
             var entranceDoorLocations = chamber.getUnconnectedPotentialDoors().randomize();
             while(success == false && entranceDoorLocations.length > 0){
                 var entranceDoor = entranceDoorLocations.pop();
@@ -93,8 +101,14 @@ var Generator = (function(){
                     console.log('door failed');
                 }
             }
-            if(!success)
-                console.log('chamber variation failed');
+            if(!success){
+                if(rotations==3)
+                    console.log('chamber variation failed');
+                else
+                    console.log("chamber didn't fit, rotating.");
+                rotations++;
+                chamber.rotateMapCounterClockwise();
+            }
         }
         if(!success)
             return false;
