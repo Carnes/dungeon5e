@@ -37,9 +37,9 @@ var Map = (function(){
         self.doesTileFit = function(x, y, tile){
             if(x+mapOffset < 0 || y+mapOffset < 0)
                 return false;
-            if(x> maxX && x-minX > totalX)
+            if(x> maxX && x-minX > totalX+mapOffset)
                 return false;
-            if(y> maxY && y-minY > totalY)
+            if(y> maxY && y-minY > totalY+mapOffset)
                 return false;
             var gTile = self.getTile(x,y);
             if(gTile == undefined || gTile.type == tile.type || gTile.parent == tile.parent)
@@ -54,9 +54,8 @@ var Map = (function(){
 
             section.map.forEach(function(yGroup, y){
                 yGroup.forEach(function(tile, x){
-                    //if(typeof(tile)=="number" && isFinite(tile))
-                        if(self.doesTileFit(x+xOrigin, y+yOrigin, tile) === false)
-                            itDoes = false;
+                    if(self.doesTileFit(x+xOrigin, y+yOrigin, tile) === false)
+                        itDoes = false;
                 });
             });
             return itDoes;

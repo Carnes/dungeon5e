@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="css/core.css">
     </head>
     <body>
+        <script src="js/random.js"></script>
         <script src="js/prototypes/array.js"></script>
         <script src="http://tageverything.org/js/jquery.js"></script>
         <script src="js/tile/type.js"></script>
@@ -18,13 +19,12 @@
         <script src="js/section/chamber.js"></script>
         <script src="js/sectionData/entrance.js"></script>
         <script src="js/sectionData/chamber.js"></script>
-        <script src="js/random.js"></script>
         <script src="js/map.js"></script>
         <script src="js/generator.js"></script>
 
         <h2>Dungeon5e</h2>
         <h3>D&D 5th Edition Dungeon Generator</h3>
-        <button id="genButton" >Generate</button>
+        <button id="genButton" >Generate</button>&nbsp;<button id="stopGenButton">Stop</button>
 
         <br>
         <blockquote class="monospace" id="map"></blockquote>
@@ -39,12 +39,15 @@ X = Door
         <script>
             $(function(){
                 var gen = function(){
-                    var map = Generator.generateMap(300,300);
+                    var map = Generator.generateMap(15,15);
                     $('#map').html(map.renderAscii());
                 };
-                gen();
 
                 $('#genButton').get(0).onclick = function(){gen()};
+                $('#stopGenButton').get(0).onclick = function(){Generator.generating = false;};
+
+
+                gen();
             });
         </script>
     </body>

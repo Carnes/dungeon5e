@@ -9,7 +9,7 @@ SectionData.Entrance = [
             [2,1,1,1,1,2],
             [2,1,1,1,1,2],
             [2,2,2,2,2,2]
-        ], door: ['anyWall'], passage: ['north','east','south','west'] //FIXME - remove door
+        ], door: [], passage: ['north','east','south','west']
         ,name: '1'
     },
     {
@@ -73,7 +73,7 @@ SectionData.Entrance = [
             [2,1,1,1,1,2],
             [2,1,1,1,1,2],
             [2,2,2,2,2,2]
-        ], door: ['anyWall'], passage: ['anyWall','anyWall','anyWall','anyWall'] //FIXME - remove door
+        ], door: [], passage: ['anyWall','anyWall','anyWall','anyWall']
         ,name: '5'
     },
     {
@@ -88,7 +88,7 @@ SectionData.Entrance = [
             [ ,2,1,1,1,1,1,1,2],
             [ , ,2,1,1,1,1,2],
             [ , , ,2,2,2,2]
-        ], door: ['anyWall'], passage: ['east','west','north','south'] //FIXME - remove door
+        ], door: [], passage: ['east','west','north','south']
         ,name: '6'
     },
     {
@@ -103,7 +103,7 @@ SectionData.Entrance = [
             [ ,2,1,1,1,1,1,1,2],
             [ , ,2,1,1,1,1,2],
             [ , , ,2,2,2,2]
-        ], door: ['anyWall'], passage: ['east','west','north','south'] //FIXME - remove door
+        ], door: [], passage: ['east','west','north','south']
         ,name: '7'
     },
     {
