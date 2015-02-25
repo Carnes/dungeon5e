@@ -146,16 +146,42 @@ var Generator = (function(){
 
     self.updateView = function(){
         //FIXME - put this UI stuff someplace else.  Looks cool but way in the wrong place
+        self.map.refreshMap();
         $('#map').html(self.map.renderAscii());
         //
     };
 
     self.tick = function(){
+        self.workChamberQueue();
+        for(var i=0; i<2; i++);
+            self.workDoorQueue();
+        self.updateView();
+        if(self.generating===true && (self.chamberQueue.length > 0 || self.doorQueue.length > 0))
+            setTimeout(self.tick, 100);
+        else
+            self.stopGeneration();
+    };
+
+    self.stopGeneration = function(){
+        self.generating = false;
+        $('#stopGenButton').hide();
+        $('#genButton').show();
+        if(self.doorQueue.length > 0) {
+            self.doorQueue = self.doorQueue.randomize();
+            var door = self.doorQueue.pop();
+            door.parent.removeDoor(door);
+        }
+    };
+
+    self.workChamberQueue = function(){
         if(self.chamberQueue.length > 0) {
             self.chamberQueue = self.chamberQueue.randomize();
             var chamber = self.chamberQueue.pop();
             self.genDoorsForChamber(chamber);
         }
+    };
+
+    self.workDoorQueue = function(){
         if(self.doorQueue.length > 0) {
             self.doorQueue = self.doorQueue.randomize();
             var door = self.doorQueue.pop();
@@ -165,19 +191,15 @@ var Generator = (function(){
                 console.log("Couldn't fit chamber door, removing it.");
             }
         }
-        self.updateView();
-        if(self.generating===true && (self.chamberQueue.length > 0 || self.doorQueue.length > 0))
-            setTimeout(self.tick, 100);
-        else{
-            //FIXME - clean up unconnected doors
-        }
     };
 
     self.generateMap = function(x,y){
+        self.generating = true;
         self.map = new Map(x,y);
         self.chamberQueue = [];
         self.doorQueue = [];
-        self.generating = true;
+        $('#genButton').hide();
+        $('#stopGenButton').show();
 
         var entrance = self.genEntrance(32, 32);
         if(!entrance)

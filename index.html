@@ -24,10 +24,12 @@
 
         <h2>Dungeon5e</h2>
         <h3>D&D 5th Edition Dungeon Generator</h3>
+        Width <input type="text" width="30" id="MapWidth" value="80"><br>
+        Height <input type="text" width="30" id="MapHeight" value="25"><br>
         <button id="genButton" >Generate</button>&nbsp;<button id="stopGenButton">Stop</button>
 
         <br>
-        <blockquote class="monospace" id="map"></blockquote>
+        <blockquote class="monospace pre" id="map"></blockquote>
         <blockquote class="monospace">
 Legend
 @ = Starting position
@@ -39,12 +41,18 @@ X = Door
         <script>
             $(function(){
                 var gen = function(){
-                    var map = Generator.generateMap(15,15);
+                    var width = parseInt($('#MapWidth').get(0).value);
+                    var height = parseInt($('#MapHeight').get(0).value);
+                    if(typeof(width)!="number" || isNaN(width)==true)
+                        width=120;
+                    if(typeof(height)!="number" || isNaN(height)==true)
+                        height=30;
+                    var map = Generator.generateMap(height,width);
                     $('#map').html(map.renderAscii());
                 };
 
                 $('#genButton').get(0).onclick = function(){gen()};
-                $('#stopGenButton').get(0).onclick = function(){Generator.generating = false;};
+                $('#stopGenButton').get(0).onclick = function(){Generator.stopGenerating();};
 
 
                 gen();

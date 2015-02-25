@@ -37,9 +37,13 @@ var Map = (function(){
         self.doesTileFit = function(x, y, tile){
             if(x+mapOffset < 0 || y+mapOffset < 0)
                 return false;
-            if(x> maxX && x-minX > totalX+mapOffset)
+            if(maxX != null && (x+mapOffset)> maxX && (x+mapOffset)-minX > totalX)
                 return false;
-            if(y> maxY && y-minY > totalY+mapOffset)
+            if(maxY != null && (y+mapOffset)> maxY && (y+mapOffset)-minY > totalY)
+                return false;
+            if(minX != null && (x+mapOffset)< minX && maxX-(x+mapOffset) > totalX)
+                return false;
+            if(minY != null && (y+mapOffset)< minY && maxY-(y+mapOffset) > totalY)
                 return false;
             var gTile = self.getTile(x,y);
             if(gTile == undefined || gTile.type == tile.type || gTile.parent == tile.parent)
