@@ -8,11 +8,12 @@ Section.Entrance = (function(){
         self.variation = SectionData.Entrance[variationNumber];
         if(!self.variation)
             throw 'Cannot create Entrance '+variationNumber;
+        self.potentialDoorCount = 0;
+        self.potentialDoorLocations = [];
         self.unconnectedDoors = [];
-        self.unconnectedPassages = [];
-        self.potentialDoors = [];
-        self.potentialPassages = [];
         self.connectedDoors = [];
+        self.potentialPassages = [];
+        self.unconnectedPassages = [];
         self.setUnconnectedDoors();
         self.setUnconnectedPassages();
         self.createMap(self.variation.map);

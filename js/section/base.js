@@ -6,9 +6,9 @@ var SectionBase = (function(){
 
     p.getUnconnectedPotentialDoors = function(){
         var self = this;
-        if(self.unconnectedDoors.length == 0 && self.potentialDoors.length == 0)
+        if(self.unconnectedDoors.length == 0 && self.potentialDoorLocations.length == 0)
             return false;
-        if(self.unconnectedDoors.length > 0 && self.potentialDoors.length == 0)
+        if(self.unconnectedDoors.length > 0 && self.potentialDoorLocations.length == 0)
             self.setPotentialDoorsFromUnconnected.call(self);
         return self.getPotentialDoors.call(self);
     };
@@ -27,8 +27,8 @@ var SectionBase = (function(){
 
     p.getPotentialDoor = function(){
         var self = this;
-        if(self.potentialDoors.length > 0){
-            var pDoor = self.potentialDoors.pop();
+        if(self.potentialDoorLocations.length > 0){
+            var pDoor = self.potentialDoorLocations.pop();
             return pDoor;
         }
         return false;
@@ -36,9 +36,9 @@ var SectionBase = (function(){
 
     p.getPotentialDoors = function(){
         var self = this;
-        if(self.potentialDoors.length > 0){
-            var doors = self.potentialDoors;
-            self.potentialDoors = [];
+        if(self.potentialDoorLocations.length > 0){
+            var doors = self.potentialDoorLocations;
+            self.potentialDoorLocations = [];
             return doors;
         }
         return false;
@@ -49,7 +49,7 @@ var SectionBase = (function(){
         if(self.unconnectedDoors.length == 0)
             return;
         var uDoor = self.unconnectedDoors.pop();
-        self.potentialDoors = self.findPotentialDoors.call(self, uDoor);
+        self.potentialDoorLocations = self.findPotentialDoors.call(self, uDoor);
     };
 
     var northConfig = {map: [

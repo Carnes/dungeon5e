@@ -46,24 +46,40 @@ var Generator = (function(){
         return entrance;
     };
 
-    self.genDoorsForChamber = function(chamber){ // FIXME - these could also be passages
+    self.genDoorCountForChamber = function(chamber){
         var newDoorsCount = 0;
         if(chamber.variation.size == 'normal')
             newDoorsCount = SectionData.Chamber.NormalExitChance.randomize()[0];
-        if(chamber.variation.size == 'large')
+        else if(chamber.variation.size == 'large')
             newDoorsCount = SectionData.Chamber.LargeExitChance.randomize()[0];
-        for(var i=0;i<newDoorsCount;i++)
+        chamber.potentialDoorCount = newDoorsCount;
+        for(var i=0;i<chamber.potentialDoorCount;i++)
             chamber.unconnectedDoors.push('anyWhere'); // FIXME - use exit location table
+    };
 
-        while (true){
-            potentialDoorLocations = chamber.getUnconnectedPotentialDoors();
-            if(potentialDoorLocations == false || potentialDoorLocations.length == 0)
-                return;
+    self.genDoorForChamber = function(chamber){ // FIXME - these could also be passages
+        if(chamber.potentialDoorCount == null)
+            self.genDoorCountForChamber(chamber);
+
+        potentialDoorLocations = chamber.getUnconnectedPotentialDoors();
+        if(potentialDoorLocations != false && potentialDoorLocations.length > 0){
             var door = potentialDoorLocations.randomize().pop();
             chamber.placeDoor(door);
             self.doorQueue.push(door);
             self.map.refreshMap();
         }
+        else {
+            self.chamberQueue.remove(chamber);
+        }
+//        while (true){
+//            potentialDoorLocations = chamber.getUnconnectedPotentialDoors();
+//            if(potentialDoorLocations == false || potentialDoorLocations.length == 0)
+//                return;
+//            var door = potentialDoorLocations.randomize().pop();
+//            chamber.placeDoor(door);
+//            self.doorQueue.push(door);
+//            self.map.refreshMap();
+//        }
     };
 
     self.genPassagesForChamber = function(chamber){ // FIXME - these could also be passages
@@ -176,8 +192,8 @@ var Generator = (function(){
     self.workChamberQueue = function(){
         if(self.chamberQueue.length > 0) {
             self.chamberQueue = self.chamberQueue.randomize();
-            var chamber = self.chamberQueue.pop();
-            self.genDoorsForChamber(chamber);
+            var chamber = self.chamberQueue[0];
+            self.genDoorForChamber(chamber);
         }
     };
 

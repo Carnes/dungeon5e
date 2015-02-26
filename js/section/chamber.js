@@ -8,11 +8,12 @@ Section.Chamber = (function(){
         self.variation = SectionData.Chamber[variationNumber];
         if(!self.variation)
             throw 'Cannot create Chamber '+variationNumber;
+        self.potentialDoorCount = null;
+        self.potentialDoorLocations = [];
         self.unconnectedDoors = [entranceDoorDirection];
-        self.unconnectedPassages = [];
-        self.potentialDoors = [];
-        self.potentialPassages = [];
         self.connectedDoors = [];
+        self.unconnectedPassages = [];
+        self.potentialPassages = [];
         //self.setUnconnectedDoors();
         //self.setUnconnectedPassages();
         self.createMap(self.variation.map);

@@ -1,0 +1,11 @@
+Chamber
+    Doors
+        Potential door count
+        Potential door locations
+        Unconnected doors
+        Connected doors
+    Passages
+        Potential passage count
+        Potential passage locations
+        Unconnected passages
+        Connected passages
