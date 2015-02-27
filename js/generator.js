@@ -52,15 +52,11 @@ var Generator = (function(){
             newDoorsCount = SectionData.Chamber.NormalExitChance.randomize()[0];
         else if(chamber.variation.size == 'large')
             newDoorsCount = SectionData.Chamber.LargeExitChance.randomize()[0];
-        chamber.potentialDoorCount = newDoorsCount;
-        for(var i=0;i<chamber.potentialDoorCount;i++)
+        for(var i=0;i<newDoorsCount;i++)
             chamber.unconnectedDoors.push('anyWhere'); // FIXME - use exit location table
     };
 
     self.genDoorForChamber = function(chamber){ // FIXME - these could also be passages
-        if(chamber.potentialDoorCount == null)
-            self.genDoorCountForChamber(chamber);
-
         potentialDoorLocations = chamber.getUnconnectedPotentialDoors();
         if(potentialDoorLocations != false && potentialDoorLocations.length > 0){
             var door = potentialDoorLocations.randomize().pop();
@@ -71,15 +67,6 @@ var Generator = (function(){
         else {
             self.chamberQueue.remove(chamber);
         }
-//        while (true){
-//            potentialDoorLocations = chamber.getUnconnectedPotentialDoors();
-//            if(potentialDoorLocations == false || potentialDoorLocations.length == 0)
-//                return;
-//            var door = potentialDoorLocations.randomize().pop();
-//            chamber.placeDoor(door);
-//            self.doorQueue.push(door);
-//            self.map.refreshMap();
-//        }
     };
 
     self.genPassagesForChamber = function(chamber){ // FIXME - these could also be passages
@@ -157,6 +144,7 @@ var Generator = (function(){
         }
         if(!success)
             return false;
+        self.genDoorCountForChamber(chamber);
         return chamber;
     };
 
@@ -165,17 +153,6 @@ var Generator = (function(){
         self.map.refreshMap();
         $('#map').html(self.map.renderAscii());
         //
-    };
-
-    self.tick = function(){
-        self.workChamberQueue();
-        for(var i=0; i<2; i++);
-            self.workDoorQueue();
-        self.updateView();
-        if(self.generating===true && (self.chamberQueue.length > 0 || self.doorQueue.length > 0))
-            setTimeout(self.tick, 100);
-        else
-            self.stopGeneration();
     };
 
     self.stopGeneration = function(){
@@ -209,6 +186,17 @@ var Generator = (function(){
         }
     };
 
+    self.tick = function(){
+        self.workChamberQueue();
+        for(var i=0; i<2; i++)
+            self.workDoorQueue();
+        self.updateView();
+        if(self.generating===true && (self.chamberQueue.length > 0 || self.doorQueue.length > 0))
+            setTimeout(self.tick, 100);
+        else
+            self.stopGeneration();
+    };
+
     self.generateMap = function(x,y){
         self.generating = true;
         self.map = new Map(x,y);
@@ -217,14 +205,12 @@ var Generator = (function(){
         $('#genButton').hide();
         $('#stopGenButton').show();
 
-        var entrance = self.genEntrance(32, 32);
+        var entrance = self.genEntrance(0, 0);
         if(!entrance)
             throw "Couldn't even find an Entrance!";
         self.updateView();
 
         self.tick();
-
-        self.map.refreshMap();
 
         return self.map;
     };
