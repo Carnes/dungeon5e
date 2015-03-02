@@ -31,20 +31,25 @@ Array.prototype.clone = function(){
 };
 
 Array.prototype.any = function (predicate) {
-    if (predicate) {
-        if (!$.isFunction(predicate))
-            throw 'Function expected';
+    if (typeof(predicate)!='function')
+        throw 'Function expected';
 
-        for (var i = 0; i < this.length; i++) {
-            if (predicate(this[i]))
-                return true;
-        }
-    }
-    else if (this.length > 0) {
-        return true;
-    }
+    for (var i = 0; i < this.length; i++)
+        if (predicate(this[i]))
+            return true;
 
     return false;
+};
+
+Array.prototype.firstOrNull = function (predicate) {
+    if (typeof(predicate)!='function')
+        throw 'Predicate must be a function';
+
+    for (var i = 0; i < this.length; i++)
+        if (predicate(this[i]))
+            return this[i];
+
+    return null;
 };
 
 Array.range = function(max){
@@ -52,4 +57,11 @@ Array.range = function(max){
     for(var i=0;i<max;i++)
         a[i]=i;
     return a;
+};
+
+Array.prototype.select = function (predicate) {
+    var projectedValues = [];
+    for (var i = 0; i < this.length; i++)
+        projectedValues.push(predicate(this[i]));
+    return projectedValues;
 };

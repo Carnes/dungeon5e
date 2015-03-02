@@ -5,7 +5,7 @@ Section.Entrance = (function(){
     var section = function(variationNumber){
         var self = this;
         self.map=[];
-        self.variation = SectionData.Entrance[variationNumber];
+        self.variation = Data.Entrance[variationNumber];
         if(!self.variation)
             throw 'Cannot create Entrance '+variationNumber;
         self.potentialDoorCount = 0;

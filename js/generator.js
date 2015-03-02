@@ -7,7 +7,7 @@ var Generator = (function(){
 
     self.genEntrance = function(x , y){
         var variationList = [];
-        for(var i=0; i< SectionData.Entrance.length; i++)
+        for(var i=0; i< Data.Entrance.length; i++)
             variationList.push(i);
         variationList.randomize();
         var success = false;
@@ -49,11 +49,11 @@ var Generator = (function(){
     self.genDoorCountForChamber = function(chamber){
         var newDoorsCount = 0;
         if(chamber.variation.size == 'normal')
-            newDoorsCount = SectionData.Chamber.NormalExitChance.randomize()[0];
+            newDoorsCount = Data.Chamber.NormalExitChance.randomize()[0];
         else if(chamber.variation.size == 'large')
-            newDoorsCount = SectionData.Chamber.LargeExitChance.randomize()[0];
+            newDoorsCount = Data.Chamber.LargeExitChance.randomize()[0];
         for(var i=0;i<newDoorsCount;i++)
-            chamber.unconnectedDoors.push('anyWhere'); // FIXME - use exit location table
+            chamber.unconnectedDoors.push('anyWall'); // FIXME - use exit location table
     };
 
     self.genDoorForChamber = function(chamber){ // FIXME - these could also be passages
@@ -72,11 +72,11 @@ var Generator = (function(){
     self.genPassagesForChamber = function(chamber){ // FIXME - these could also be passages
         //var newDoorsCount = 0;
         //if(chamber.variation.size == 'normal')
-        //    newDoorsCount = SectionData.Chamber.NormalExitChance.randomize()[0];
+        //    newDoorsCount = Data.Chamber.NormalExitChance.randomize()[0];
         //if(chamber.variation.size == 'large')
-        //    newDoorsCount = SectionData.Chamber.LargeExitChance.randomize()[0];
+        //    newDoorsCount = Data.Chamber.LargeExitChance.randomize()[0];
         //for(var i=0;i<newDoorsCount;i++)
-        //    chamber.unconnectedDoors.push('anyWhere'); // FIXME - use exit location table
+        //    chamber.unconnectedDoors.push('anyUnoccupiedWall'); // FIXME - use exit location table
         //
         //while (true){
         //    potentialDoorLocations = chamber.getUnconnectedPotentialDoors();
@@ -90,7 +90,7 @@ var Generator = (function(){
     };
 
     self.genChamberFromDoor = function(parentDoor){
-        var variationList = Array.range(SectionData.Chamber.length).randomize();
+        var variationList = Array.range(Data.Chamber.length).randomize();
         var success = false;
         var chamber;
         var chamberDoorDirection;

@@ -5,7 +5,7 @@ Section.Chamber = (function(){
     var section = function(variationNumber,entranceDoorDirection){
         var self = this;
         self.map=[];
-        self.variation = SectionData.Chamber[variationNumber];
+        self.variation = Data.Chamber[variationNumber];
         if(!self.variation)
             throw 'Cannot create Chamber '+variationNumber;
         self.potentialDoorLocations = [];
