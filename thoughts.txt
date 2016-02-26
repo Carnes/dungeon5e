@@ -1,11 +1,20 @@
-Chamber
-    Doors
-        Potential door count
-        Potential door locations
-        Unconnected doors
-        Connected doors
-    Passages
-        Potential passage count
-        Potential passage locations
-        Unconnected passages
-        Connected passages
+Every section has x,y,z
+
+Sections have base methods
+    getMap
+        originalMap
+        connectedMaps
+        openConnectionMap
+    createConnection(door or passage or whatever), returns connection.  Only one opening allowed at a time.  Object returns map.  That map is used to find merge points.  Merge points are saved internally.
+        connection.move(), chooses another merge point an removes previous merge point.  Returns false if no merge points remaining.
+        connection.connect(), promotes to full connection
+        connection.remove()
+
+    getMatchingLocations
+
+Map
+    Handles x,y,z storage
+    Handles tiles
+    Handles rendering
+    Merge two maps together at a specific point
+    Can two maps merge?
